@@ -44,3 +44,43 @@ spec:
               port: 4567
             initialDelaySeconds: 10
             periodSeconds: 3
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stedi-julio-nodeport
+spec: 
+  selector:
+    app: stedi-juliomaya-dev
+  type: NodePort
+  ports: 
+    - port: 80
+      targetPort: 4567
+---
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata: 
+  name: stedi-juliomaya-certificate
+spec:
+  domains:
+    - juliomaya.cit262.com
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: stedi-juliomaya-ingress
+  annotations:
+    kubernetes.io/ingressglobal-static-ip-name: stedi-julio-public
+    networking.gke.io/managed-certificates: stedi-juliomaya-certificate
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: stedi-julio-nodeport
+            port:
+              number: 80
