@@ -61,7 +61,7 @@ spec:
 apiVersion: networking.gke.io/v1
 kind: ManagedCertificate
 metadata: 
-  name: stedi-juliomaya-certificate
+  name: stedi-juliomaya-certificate2
 spec:
   domains:
     - juliomaya.cit262.com
@@ -71,8 +71,8 @@ kind: Ingress
 metadata:
   name: stedi-juliomaya-ingress
   annotations:
-    kubernetes.io/ingressglobal-static-ip-name: stedi-julio-public
-    networking.gke.io/managed-certificates: stedi-juliomaya-certificate
+    kubernetes.io/ingress.global-static-ip-name: stedi-julio-public
+    networking.gke.io/managed-certificates: stedi-juliomaya-certificate2
 spec:
   rules:
   - http:
